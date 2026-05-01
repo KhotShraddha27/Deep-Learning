@@ -10,8 +10,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Data files (optional)
-DATA/
+
 
 # VS Code
 .vscode/
