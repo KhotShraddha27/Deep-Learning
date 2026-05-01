@@ -5,6 +5,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+import logging
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PDF_FOLDER = os.path.join(BASE_DIR, "DATA")
@@ -12,8 +14,10 @@ PDF_FOLDER = os.path.join(BASE_DIR, "DATA")
 def load_pdfs():
     docs = []
     
-    st.write("📂 Checking folder:", PDF_FOLDER)
-    st.write("📄 Files found:", os.listdir(PDF_FOLDER))
+logging.basicConfig(level=logging.INFO)
+
+logging.info(f"PDF_FOLDER: {PDF_FOLDER}")
+logging.info(f"Files: {os.listdir(PDF_FOLDER)}")
 
     for file in os.listdir(PDF_FOLDER):
         if file.endswith(".pdf"):
