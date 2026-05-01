@@ -12,6 +12,9 @@ PDF_FOLDER = os.path.join(BASE_DIR, "DATA")
 def load_pdfs():
     docs = []
     
+    st.write("📂 Checking folder:", PDF_FOLDER)
+    st.write("📄 Files found:", os.listdir(PDF_FOLDER))
+
     for file in os.listdir(PDF_FOLDER):
         if file.endswith(".pdf"):
             path = os.path.join(PDF_FOLDER, file)
