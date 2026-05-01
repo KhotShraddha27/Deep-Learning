@@ -6,8 +6,8 @@ from langchain_community.vectorstores import FAISS
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 
-# 📁 LOCAL DATA FOLDER
-PDF_FOLDER = "DATA"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PDF_FOLDER = os.path.join(BASE_DIR, "DATA")
 
 def load_pdfs():
     docs = []
