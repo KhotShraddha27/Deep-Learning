@@ -7,7 +7,7 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 
 # 📁 LOCAL DATA FOLDER
-PDF_FOLDER = "data"
+PDF_FOLDER = "DATA"
 
 def load_pdfs():
     docs = []
