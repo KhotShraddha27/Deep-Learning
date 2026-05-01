@@ -1,25 +1,27 @@
 import os
+import logging
+
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_groq import ChatGroq
-from langchain_core.prompts import ChatPromptTemplate
-import logging
-
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PDF_FOLDER = os.path.join(BASE_DIR, "DATA")
 
-def load_pdfs():
-    docs = []
-    
 logging.basicConfig(level=logging.INFO)
 
-logging.info(f"PDF_FOLDER: {PDF_FOLDER}")
-logging.info(f"Files: {os.listdir(PDF_FOLDER)}")
+def load_pdfs():
+    docs = []
 
-    for file in os.listdir(PDF_FOLDER):
+    logging.info(f"PDF_FOLDER: {PDF_FOLDER}")
+
+    if not os.path.exists(PDF_FOLDER):
+        raise FileNotFoundError(f"Folder not found: {PDF_FOLDER}")
+
+    files = os.listdir(PDF_FOLDER)
+    logging.info(f"Files found: {files}")
+
+    for file in files:
         if file.endswith(".pdf"):
             path = os.path.join(PDF_FOLDER, file)
             loader = PyPDFLoader(path)
@@ -32,11 +34,13 @@ logging.info(f"Files: {os.listdir(PDF_FOLDER)}")
 
     return docs
 
-
 def create_rag():
     documents = load_pdfs()
 
-    splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=400,
+        chunk_overlap=50
+    )
     chunks = splitter.split_documents(documents)
 
     embeddings = HuggingFaceEmbeddings(
@@ -66,8 +70,7 @@ Question:
 """)
 
     return retriever, llm, prompt
-
-
+    
 def ask_question(query, retriever, llm, prompt):
     docs = retriever.invoke(query)
 
